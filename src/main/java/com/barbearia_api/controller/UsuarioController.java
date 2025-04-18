@@ -19,28 +19,16 @@ public class UsuarioController {
 
     @GetMapping("/listar")
     public ResponseEntity<List<UsuarioVmGeral>> listAll(){
-        try {
-            return ResponseEntity.ok(usuarioService.listAll());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return ResponseEntity.ok(usuarioService.listAll());
     }
 
     @GetMapping("/list/{id}")
     public ResponseEntity<UsuarioVmGeral> listById(Integer id){
-        try {
-            return ResponseEntity.ok(usuarioService.listById(id));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return ResponseEntity.ok(usuarioService.listById(id));
     }
 
     @PostMapping("/register")
     public ResponseEntity<UsuarioVmGeral> register(@RequestBody UsuarioRegisterDto usuarioRegisterDto){
-        try {
-            return ResponseEntity.ok(usuarioService.register(usuarioRegisterDto));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return ResponseEntity.ok(usuarioService.register(usuarioRegisterDto));
     }
 }
