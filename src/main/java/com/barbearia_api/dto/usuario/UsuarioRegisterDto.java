@@ -1,4 +1,4 @@
-﻿package com.barbearia_api.dto.usuario;
+package com.barbearia_api.dto.usuario;
 
 public class UsuarioRegisterDto {
     private Integer id;

@@ -1,4 +1,4 @@
-﻿package com.barbearia_api.viewmodel;
+package com.barbearia_api.viewmodel;
 
 public class UsuarioVmGeral {
     private Integer id;

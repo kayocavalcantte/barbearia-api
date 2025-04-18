@@ -1,4 +1,4 @@
-﻿package com.barbearia_api.service;
+package com.barbearia_api.service;
 
 import com.barbearia_api.dto.usuario.UsuarioRegisterDto;
 import com.barbearia_api.model.Usuario;
