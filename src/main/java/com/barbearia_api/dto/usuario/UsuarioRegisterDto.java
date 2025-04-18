@@ -1,42 +1,27 @@
-package com.barbearia_api.model;
+﻿package com.barbearia_api.dto.usuario;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "usuarios")
-public class Usuario {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UsuarioRegisterDto {
     private Integer id;
-
-    @Column(nullable = false)
     private String nome;
-
-    @Column(nullable = false, unique = true)
     private String email;
-
-    @Column(nullable = false)
     private String senha;
-
-    @Column(nullable = false)
     private String telefone;
 
-    public Usuario() {
-    }
+    public UsuarioRegisterDto(){}
 
-    public Usuario(String nome, String email, String senha, String telefone) {
+    public UsuarioRegisterDto(Integer id, String nome, String email, String senha, String telefone) {
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
