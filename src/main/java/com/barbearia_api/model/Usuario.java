@@ -22,21 +22,32 @@ public class Usuario {
     @Column(nullable = false)
     private String telefone;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_perfil", nullable = false)
+    private TipoPerfil tipoPerfil;
+
     public Usuario() {
     }
 
-    public Usuario(String nome, String email, String senha, String telefone) {
+
+    public enum TipoPerfil {
+        ADMIN, CLIENTE, FUNCIONARIO
+    }
+
+    public Usuario(Integer id, String nome, String email, String senha, String telefone, TipoPerfil tipoPerfil) {
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
+        this.tipoPerfil = tipoPerfil;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -70,5 +81,13 @@ public class Usuario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public TipoPerfil getTipoPerfil() {
+        return tipoPerfil;
+    }
+
+    public void setTipoPerfil(TipoPerfil tipoPerfil) {
+        this.tipoPerfil = tipoPerfil;
     }
 }

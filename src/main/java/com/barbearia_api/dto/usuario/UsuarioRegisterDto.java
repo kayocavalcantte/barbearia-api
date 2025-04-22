@@ -7,6 +7,7 @@ public class UsuarioRegisterDto {
     private String senha;
     private String telefone;
 
+
     public UsuarioRegisterDto(){}
 
     public UsuarioRegisterDto(Integer id, String nome, String email, String senha, String telefone) {
