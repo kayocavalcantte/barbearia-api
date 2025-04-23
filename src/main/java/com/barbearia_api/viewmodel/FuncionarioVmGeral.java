@@ -1,24 +1,13 @@
-package com.barbearia_api.model;
+package com.barbearia_api.viewmodel;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "funcionarios")
-public class Funcionario {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class FuncionarioVmGeral {
     private Integer id;
-
-    @Column(nullable = false)
     private String nome;
-
-    @Column(name = "is_ativo", nullable = false)
     private boolean isAtivo;
 
-    public Funcionario() {}
+    public FuncionarioVmGeral(){}
 
-    public Funcionario(Integer id, String nome, boolean isAtivo) {
+    public FuncionarioVmGeral(Integer id, String nome, boolean isAtivo) {
         this.id = id;
         this.nome = nome;
         this.isAtivo = isAtivo;
