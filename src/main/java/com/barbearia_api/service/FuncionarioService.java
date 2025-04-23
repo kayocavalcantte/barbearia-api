@@ -17,25 +17,54 @@ public class FuncionarioService {
 
     public List<FuncionarioVmGeral> listAll(){
         return funcionarioRepository.findAll()
-                .stream().map(f -> new FuncionarioVmGeral( f.getId(), f.getNome(), f.isAtivo()))
+                .stream().map(f -> new FuncionarioVmGeral(
+                        f.getId(),
+                        f.isAtivo(),
+                        f.getUsuarioId(),
+                        f.getHorarioInicio(),
+                        f.getHorarioFinal()
+                ))
                 .collect(Collectors.toList());
     }
 
     public FuncionarioVmGeral listById(Integer id){
         return funcionarioRepository.findById(id)
-                .map(f -> new FuncionarioVmGeral(f.getId(), f.getNome(), f.isAtivo()))
+                .map(f -> new FuncionarioVmGeral(
+                        f.getId(),
+                        f.isAtivo(),
+                        f.getUsuarioId(),
+                        f.getHorarioInicio(),
+                        f.getHorarioFinal()
+                ))
                 .orElse(null);
     }
 
     public FuncionarioVmGeral register(FuncionarioRegisterDto funcionarioRegisterDto){
+        String horarioInicio = funcionarioRegisterDto.getHorarioInicio() != null
+                ? funcionarioRegisterDto.getHorarioInicio()
+                : "08:00:00";
+
+        String horarioFinal = funcionarioRegisterDto.getHorarioFinal() != null
+                ? funcionarioRegisterDto.getHorarioFinal()
+                : "19:00:00";
+
         Funcionario funcionario = new Funcionario(
                 null,
-                funcionarioRegisterDto.getNome(),
-                true
+                true,
+                funcionarioRegisterDto.getUsuarioId(),
+                horarioInicio,
+                horarioFinal
         );
 
         funcionario = funcionarioRepository.save(funcionario);
 
-        return new FuncionarioVmGeral(funcionario.getId(), funcionario.getNome(), funcionario.isAtivo());
+        return new FuncionarioVmGeral(
+                funcionario.getId(),
+                funcionario.isAtivo(),
+                funcionario.getUsuarioId(),
+                funcionario.getHorarioInicio(),
+                funcionario.getHorarioFinal()
+        );
     }
+
 }
