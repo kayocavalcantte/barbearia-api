@@ -2,6 +2,8 @@ package com.barbearia_api.model;
 
 import jakarta.persistence.*;
 
+import java.sql.Time;
+
 @Entity
 @Table(name = "funcionarios")
 public class Funcionario {
@@ -10,18 +12,26 @@ public class Funcionario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
-    private String nome;
-
     @Column(name = "is_ativo", nullable = false)
     private boolean isAtivo;
 
-    public Funcionario() {}
+    @Column(name = "usuario_id")
+    private Integer usuarioId;
 
-    public Funcionario(Integer id, String nome, boolean isAtivo) {
+    @Column(name = "horario_inicio")
+    private String horarioInicio;
+
+    @Column(name = "horario_final")
+    private String horarioFinal;
+
+    public Funcionario(){}
+
+    public Funcionario(Integer id, boolean isAtivo, Integer usuarioId, String horarioInicio, String horarioFinal) {
         this.id = id;
-        this.nome = nome;
         this.isAtivo = isAtivo;
+        this.usuarioId = usuarioId;
+        this.horarioInicio = horarioInicio;
+        this.horarioFinal = horarioFinal;
     }
 
     public Integer getId() {
@@ -32,19 +42,35 @@ public class Funcionario {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
     public boolean isAtivo() {
         return isAtivo;
     }
 
     public void setAtivo(boolean ativo) {
         isAtivo = ativo;
+    }
+
+    public Integer getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(Integer usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+
+    public String getHorarioInicio() {
+        return horarioInicio;
+    }
+
+    public void setHorarioInicio(String horarioInicio) {
+        this.horarioInicio = horarioInicio;
+    }
+
+    public String getHorarioFinal() {
+        return horarioFinal;
+    }
+
+    public void setHorarioFinal(String horarioFinal) {
+        this.horarioFinal = horarioFinal;
     }
 }
