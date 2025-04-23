@@ -1,40 +1,19 @@
-package com.barbearia_api.model;
+package com.barbearia_api.viewmodel;
 
-import jakarta.persistence.*;
+import com.barbearia_api.model.Agendamento;
 
-import java.sql.Date;
-import java.sql.Time;
-
-@Entity
-@Table(name = "agendamentos")
-public class Agendamento {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class AgendamentoVmGeral {
     private Integer id;
-
-    @Column(name = "funcionario_id")
     private Integer funcionarioId;
-
-    @Column(name = "usuario_id")
     private Integer usuarioId;
-
-    @Column(name = "horario")
     private String horario;
-
-    @Column(name = "data_agendamento")
     private String dataAgendamento;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status_agendamento", nullable = false)
-    private StatusAgendamento statusAgendamento = StatusAgendamento.ESPERA;
-
-    @Column(name = "crc")
+    private Agendamento.StatusAgendamento statusAgendamento;
     private String crc;
 
-    public Agendamento() {}
+    public AgendamentoVmGeral() {}
 
-    public Agendamento(Integer id, Integer funcionarioId, Integer usuarioId, String horario, String dataAgendamento, StatusAgendamento statusAgendamento, String crc) {
+    public AgendamentoVmGeral(Integer id, Integer funcionarioId, Integer usuarioId, String horario, String dataAgendamento, Agendamento.StatusAgendamento statusAgendamento, String crc) {
         this.id = id;
         this.funcionarioId = funcionarioId;
         this.usuarioId = usuarioId;
@@ -43,7 +22,6 @@ public class Agendamento {
         this.statusAgendamento = statusAgendamento;
         this.crc = crc;
     }
-
 
     public Integer getId() {
         return id;
@@ -85,11 +63,11 @@ public class Agendamento {
         this.dataAgendamento = dataAgendamento;
     }
 
-    public StatusAgendamento getStatusAgendamento() {
+    public Agendamento.StatusAgendamento getStatusAgendamento() {
         return statusAgendamento;
     }
 
-    public void setStatusAgendamento(StatusAgendamento statusAgendamento) {
+    public void setStatusAgendamento(Agendamento.StatusAgendamento statusAgendamento) {
         this.statusAgendamento = statusAgendamento;
     }
 
@@ -99,9 +77,5 @@ public class Agendamento {
 
     public void setCrc(String crc) {
         this.crc = crc;
-    }
-
-    public enum StatusAgendamento {
-        ATENDIDO, DESMARCADO, ESPERA
     }
 }
