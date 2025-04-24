@@ -11,7 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuario")
 public class UsuarioController {
-    private UsuarioService usuarioService;
+    private final UsuarioService usuarioService;
 
     public UsuarioController(UsuarioService usuarioService){
         this.usuarioService = usuarioService;
@@ -23,7 +23,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/list/{id}")
-    public ResponseEntity<UsuarioVmGeral> listById(Integer id){
+    public ResponseEntity<UsuarioVmGeral> listById(@PathVariable Integer id){
         return ResponseEntity.ok(usuarioService.listById(id));
     }
 
