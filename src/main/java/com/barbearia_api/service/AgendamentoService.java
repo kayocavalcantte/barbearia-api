@@ -4,19 +4,25 @@ import com.barbearia_api.dto.agendamento.AgendamentoEditDto;
 import com.barbearia_api.dto.agendamento.AgendamentoEditStatusDto;
 import com.barbearia_api.dto.agendamento.AgendamentoRegisterDto;
 import com.barbearia_api.model.Agendamento;
+import com.barbearia_api.model.Funcionario;
+import com.barbearia_api.model.Usuario;
 import com.barbearia_api.repositories.AgendamentoRepository;
+import com.barbearia_api.repositories.FuncionarioRepository;
 import com.barbearia_api.viewmodel.AgendamentoVmGeral;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class AgendamentoService {
     private final AgendamentoRepository agendamentoRepository;
+    private final FuncionarioRepository funcionarioRepository;
 
-    public AgendamentoService(AgendamentoRepository agendamentoRepository){
+    public AgendamentoService(AgendamentoRepository agendamentoRepository, FuncionarioRepository funcionarioRepository){
         this.agendamentoRepository = agendamentoRepository;
+        this.funcionarioRepository = funcionarioRepository;
     }
 
     public List<AgendamentoVmGeral> listAll(){
@@ -37,6 +43,18 @@ public class AgendamentoService {
         String crc = "f"+ agendamentoRegisterDto.getFuncionarioId() + "-" +
                 "h" + agendamentoRegisterDto.getHorario() + "-" +
                 "d" + agendamentoRegisterDto.getDataAgendamento();
+
+        Funcionario funcionario = funcionarioRepository.findById(agendamentoRegisterDto.getFuncionarioId())
+                .orElseThrow(() -> new RuntimeException("Funcionario não encontrado."));
+
+
+        LocalTime horarioAgendamento = LocalTime.parse(agendamentoRegisterDto.getHorario());
+        LocalTime horarioInicioFuncionario = LocalTime.parse(funcionario.getHorarioInicio());
+        LocalTime horarioFinalFuncionario = LocalTime.parse(funcionario.getHorarioFinal());
+
+        if (horarioAgendamento.isBefore(horarioInicioFuncionario) || horarioAgendamento.isAfter(horarioFinalFuncionario) ) {
+            throw  new RuntimeException("Horario não disponível.");
+        }
 
         Agendamento agendamento = new Agendamento(
                 null,
