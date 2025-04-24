@@ -1,5 +1,6 @@
 package com.barbearia_api.service;
 
+import com.barbearia_api.dto.usuario.UsuarioEditDto;
 import com.barbearia_api.dto.usuario.UsuarioRegisterDto;
 import com.barbearia_api.model.Usuario;
 import com.barbearia_api.repositories.UsuarioRepository;
@@ -44,7 +45,27 @@ public class UsuarioService {
                 usuario.getNome(),
                 usuario.getEmail(),
                 usuario.getTelefone(),
-                usuario.getTipoPerfil() // Include tipoPerfil in the response
+                usuario.getTipoPerfil()
+        );
+    }
+
+    public UsuarioVmGeral update(UsuarioEditDto usuarioEditDto){
+
+        Usuario usuario = usuarioRepository.findById(usuarioEditDto.getId())
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado."));
+
+        usuario.setNome(usuarioEditDto.getNome());
+        usuario.setTelefone(usuarioEditDto.getTelefone());
+        usuario.setTipoPerfil(usuarioEditDto.getTipoPerfil());
+
+        Usuario newUsuario = usuarioRepository.save(usuario);
+
+        return new UsuarioVmGeral(
+                usuario.getId(),
+                usuario.getNome(),
+                usuario.getEmail(),
+                usuario.getTelefone(),
+                usuario.getTipoPerfil()
         );
     }
 }
