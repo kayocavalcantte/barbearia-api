@@ -1,5 +1,7 @@
 package com.barbearia_api.service;
 
+import com.barbearia_api.dto.agendamento.AgendamentoEditDto;
+import com.barbearia_api.dto.agendamento.AgendamentoEditStatusDto;
 import com.barbearia_api.dto.agendamento.AgendamentoRegisterDto;
 import com.barbearia_api.model.Agendamento;
 import com.barbearia_api.repositories.AgendamentoRepository;
@@ -11,7 +13,11 @@ import java.util.stream.Collectors;
 
 @Service
 public class AgendamentoService {
-    private AgendamentoRepository agendamentoRepository;
+    private final AgendamentoRepository agendamentoRepository;
+
+    public AgendamentoService(AgendamentoRepository agendamentoRepository){
+        this.agendamentoRepository = agendamentoRepository;
+    }
 
     public List<AgendamentoVmGeral> listAll(){
         return agendamentoRepository.findAll().stream()
@@ -54,4 +60,51 @@ public class AgendamentoService {
                 agendamento.getCrc());
     }
 
+    public AgendamentoVmGeral update(AgendamentoEditDto agendamentoEditDto){
+
+        String crc = "f"+ agendamentoEditDto.getFuncionarioId() + "-" +
+                "h" + agendamentoEditDto.getHorario() + "-" +
+                "d" + agendamentoEditDto.getDataAgendamento();
+
+        Agendamento agendamento = agendamentoRepository.findById(agendamentoEditDto.getId())
+                .orElseThrow(() -> new RuntimeException("Agendamento não encontrado com o ID: " + agendamentoEditDto.getId()));
+
+        agendamento.setFuncionarioId(agendamentoEditDto.getFuncionarioId());
+        agendamento.setHorario(agendamentoEditDto.getHorario());
+        agendamento.setDataAgendamento(agendamentoEditDto.getDataAgendamento());
+        agendamento.setStatusAgendamento(agendamentoEditDto.getStatusAgendamento());
+        agendamento.setCrc(crc);
+
+        Agendamento newAgendamento = agendamentoRepository.save(agendamento);
+
+        return new AgendamentoVmGeral(
+                newAgendamento.getId(),
+                newAgendamento.getFuncionarioId(),
+                newAgendamento.getUsuarioId(),
+                newAgendamento.getHorario(),
+                newAgendamento.getDataAgendamento(),
+                newAgendamento.getStatusAgendamento(),
+                newAgendamento.getCrc()
+        );
+    }
+
+    public AgendamentoVmGeral updateStatusAgendamento(AgendamentoEditStatusDto agendamentoEditStatusDto){
+
+        Agendamento agendamento = agendamentoRepository.findById(agendamentoEditStatusDto.getId())
+                .orElseThrow(() -> new RuntimeException("Agendamento não encontrado com o ID: "  + agendamentoEditStatusDto.getId()));
+
+        agendamento.setStatusAgendamento(agendamentoEditStatusDto.getStatusAgendamento());
+
+        Agendamento newAgendamento = agendamentoRepository.save(agendamento);
+
+        return new AgendamentoVmGeral(
+                newAgendamento.getId(),
+                newAgendamento.getFuncionarioId(),
+                newAgendamento.getUsuarioId(),
+                newAgendamento.getHorario(),
+                newAgendamento.getDataAgendamento(),
+                newAgendamento.getStatusAgendamento(),
+                newAgendamento.getCrc()
+        );
+    }
 }

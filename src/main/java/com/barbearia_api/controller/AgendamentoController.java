@@ -1,5 +1,7 @@
 package com.barbearia_api.controller;
 
+import com.barbearia_api.dto.agendamento.AgendamentoEditDto;
+import com.barbearia_api.dto.agendamento.AgendamentoEditStatusDto;
 import com.barbearia_api.dto.agendamento.AgendamentoRegisterDto;
 import com.barbearia_api.service.AgendamentoService;
 import com.barbearia_api.viewmodel.AgendamentoVmGeral;
@@ -30,5 +32,15 @@ public class AgendamentoController {
     @PostMapping("/register")
     public ResponseEntity<AgendamentoVmGeral> register(@RequestBody AgendamentoRegisterDto agendamentoRegisterDto){
         return ResponseEntity.ok(agendamentoService.register(agendamentoRegisterDto));
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<AgendamentoVmGeral> edit(@RequestBody AgendamentoEditDto agendamentoEditDto){
+        return ResponseEntity.ok(agendamentoService.update(agendamentoEditDto));
+    }
+
+    @PutMapping("/edit/status")
+    public ResponseEntity<AgendamentoVmGeral> edit(@RequestBody AgendamentoEditStatusDto agendamentoEditStatusDto){
+        return ResponseEntity.ok(agendamentoService.updateStatusAgendamento(agendamentoEditStatusDto));
     }
 }
