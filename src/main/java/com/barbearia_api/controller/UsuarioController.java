@@ -1,5 +1,6 @@
 package com.barbearia_api.controller;
 
+import com.barbearia_api.dto.usuario.UsuarioEditDto;
 import com.barbearia_api.dto.usuario.UsuarioRegisterDto;
 import com.barbearia_api.service.UsuarioService;
 import com.barbearia_api.viewmodel.UsuarioVmGeral;
@@ -30,5 +31,10 @@ public class UsuarioController {
     @PostMapping("/register")
     public ResponseEntity<UsuarioVmGeral> register(@RequestBody UsuarioRegisterDto usuarioRegisterDto){
         return ResponseEntity.ok(usuarioService.register(usuarioRegisterDto));
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<UsuarioVmGeral> edit(@RequestBody UsuarioEditDto usuarioEditDto){
+        return ResponseEntity.ok(usuarioService.update(usuarioEditDto));
     }
 }

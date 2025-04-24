@@ -70,6 +70,13 @@ public class FuncionarioService {
                 ? funcionarioRegisterDto.getHorarioFinal()
                 : "19:00:00";
 
+        Usuario usuario = usuarioRepository.findById(funcionarioRegisterDto.getUsuarioId())
+                .orElseThrow(() -> new RuntimeException("Usuario não encontrado."));
+
+        if (usuario.getTipoPerfil() != Usuario.TipoPerfil.FUNCIONARIO){
+            throw new RuntimeException("Usuário não é um funcionário.");
+        }
+
         Funcionario funcionario = new Funcionario(
                 null,
                 true,
@@ -84,7 +91,7 @@ public class FuncionarioService {
                 funcionario.getId(),
                 funcionario.isAtivo(),
                 funcionario.getUsuarioId(),
-                null,
+                usuario.getNome(),
                 funcionario.getHorarioInicio(),
                 funcionario.getHorarioFinal()
         );
