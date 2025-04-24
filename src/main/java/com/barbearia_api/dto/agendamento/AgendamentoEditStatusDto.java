@@ -1,9 +1,15 @@
 package com.barbearia_api.dto.agendamento;
 
 import com.barbearia_api.model.Agendamento;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class AgendamentoEditStatusDto {
+
+    @NotNull(message = "Campo invalido.")
     private Integer id;
+
+    @NotNull(message = "O status do agendamento é obrigatório.")
     private Agendamento.StatusAgendamento statusAgendamento;
 
     public AgendamentoEditStatusDto() {}

@@ -1,22 +1,29 @@
 package com.barbearia_api.dto.agendamento;
 
 import com.barbearia_api.model.Agendamento;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 public class AgendamentoEditDto {
+    @NotNull(message = "Campo invalido.")
     private Integer id;
+
+    @NotNull(message = "Campo invalido.")
     private Integer funcionarioId;
+
+    @Pattern(regexp = "^\\d{2}:\\d{2}$", message = "Formato de horário inválido. Use HH:mm")
     private String horario;
+
+    @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$", message = "Formato de horário inválido. Use dd/mm/aaaa")
     private String dataAgendamento;
-    private Agendamento.StatusAgendamento statusAgendamento;
 
     public AgendamentoEditDto(){}
 
-    public AgendamentoEditDto(Integer id, Integer funcionarioId, String horario, String dataAgendamento, Agendamento.StatusAgendamento statusAgendamento) {
+    public AgendamentoEditDto(Integer id, Integer funcionarioId, String horario, String dataAgendamento) {
         this.id = id;
         this.funcionarioId = funcionarioId;
         this.horario = horario;
         this.dataAgendamento = dataAgendamento;
-        this.statusAgendamento = statusAgendamento;
     }
 
     public Integer getId() {
@@ -51,11 +58,4 @@ public class AgendamentoEditDto {
         this.dataAgendamento = dataAgendamento;
     }
 
-    public Agendamento.StatusAgendamento getStatusAgendamento() {
-        return statusAgendamento;
-    }
-
-    public void setStatusAgendamento(Agendamento.StatusAgendamento statusAgendamento) {
-        this.statusAgendamento = statusAgendamento;
-    }
 }
