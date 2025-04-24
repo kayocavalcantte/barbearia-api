@@ -1,24 +1,16 @@
-package com.barbearia_api.viewmodel;
+package com.barbearia_api.dto.funcionario;
 
-import com.barbearia_api.model.Usuario;
-
-import java.sql.Time;
-
-public class FuncionarioVmGeral {
+public class FuncionarioEditDto {
     private Integer id;
     private boolean isAtivo;
-    private Integer usuarioId;
-    private String nome;
     private String horarioInicio;
     private String horarioFinal;
 
-    public FuncionarioVmGeral(){}
+    public FuncionarioEditDto() {}
 
-    public FuncionarioVmGeral(Integer id, boolean isAtivo, Integer usuarioId, String nome, String horarioInicio, String horarioFinal) {
+    public FuncionarioEditDto(Integer id, boolean isAtivo, String horarioInicio, String horarioFinal) {
         this.id = id;
         this.isAtivo = isAtivo;
-        this.usuarioId = usuarioId;
-        this.nome = nome;
         this.horarioInicio = horarioInicio;
         this.horarioFinal = horarioFinal;
     }
@@ -37,22 +29,6 @@ public class FuncionarioVmGeral {
 
     public void setAtivo(boolean ativo) {
         isAtivo = ativo;
-    }
-
-    public Integer getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getHorarioInicio() {

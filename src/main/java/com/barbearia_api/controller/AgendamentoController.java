@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("agendamento")
 public class AgendamentoController {
-    private AgendamentoService agendamentoService;
+    private final AgendamentoService agendamentoService;
 
     public AgendamentoController(AgendamentoService agendamentoService) {
         this.agendamentoService = agendamentoService;
@@ -25,7 +25,7 @@ public class AgendamentoController {
     }
 
     @GetMapping("/list/{id}")
-    public ResponseEntity<AgendamentoVmGeral> listById(Integer id){
+    public ResponseEntity<AgendamentoVmGeral> listById(@PathVariable Integer id){
         return ResponseEntity.ok(agendamentoService.listById(id));
     }
 

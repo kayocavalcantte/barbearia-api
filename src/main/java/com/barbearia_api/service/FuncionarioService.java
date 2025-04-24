@@ -1,42 +1,64 @@
 package com.barbearia_api.service;
 
+import com.barbearia_api.dto.funcionario.FuncionarioEditDto;
 import com.barbearia_api.dto.funcionario.FuncionarioRegisterDto;
 import com.barbearia_api.model.Funcionario;
+import com.barbearia_api.model.Usuario;
 import com.barbearia_api.repositories.FuncionarioRepository;
+import com.barbearia_api.repositories.UsuarioRepository;
 import com.barbearia_api.viewmodel.FuncionarioVmGeral;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class FuncionarioService {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
+    private final UsuarioRepository usuarioRepository;
+
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, UsuarioRepository usuarioRepository) {
+        this.funcionarioRepository = funcionarioRepository;
+        this.usuarioRepository = usuarioRepository;
+    }
 
     public List<FuncionarioVmGeral> listAll(){
-        return funcionarioRepository.findAll()
-                .stream().map(f -> new FuncionarioVmGeral(
-                        f.getId(),
-                        f.isAtivo(),
-                        f.getUsuarioId(),
-                        f.getHorarioInicio(),
-                        f.getHorarioFinal()
-                ))
-                .collect(Collectors.toList());
+        List<Funcionario> funcionarios = funcionarioRepository.findAll();
+
+        return funcionarios.stream().map(f -> {
+            Usuario usuario = usuarioRepository.findById(f.getUsuarioId())
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+            return new FuncionarioVmGeral(
+                    f.getId(),
+                    f.isAtivo(),
+                    f.getUsuarioId(),
+                    usuario.getNome(),
+                    f.getHorarioInicio(),
+                    f.getHorarioFinal()
+            );
+        }).toList();
     }
 
     public FuncionarioVmGeral listById(Integer id){
-        return funcionarioRepository.findById(id)
-                .map(f -> new FuncionarioVmGeral(
-                        f.getId(),
-                        f.isAtivo(),
-                        f.getUsuarioId(),
-                        f.getHorarioInicio(),
-                        f.getHorarioFinal()
-                ))
-                .orElse(null);
+
+        Optional<Funcionario> funcioanrio = funcionarioRepository.findById(id);
+
+        return funcioanrio.map(f -> {
+            Usuario usuario = usuarioRepository.findById(f.getUsuarioId())
+                    .orElseThrow(() -> new RuntimeException("Usuario não encontrato."));
+            return new FuncionarioVmGeral(
+                    f.getId(),
+                    f.isAtivo(),
+                    f.getUsuarioId(),
+                    usuario.getNome(),
+                    f.getHorarioInicio(),
+                    f.getHorarioFinal()
+            );
+        }).orElse(null);
+
     }
 
     public FuncionarioVmGeral register(FuncionarioRegisterDto funcionarioRegisterDto){
@@ -62,8 +84,32 @@ public class FuncionarioService {
                 funcionario.getId(),
                 funcionario.isAtivo(),
                 funcionario.getUsuarioId(),
+                null,
                 funcionario.getHorarioInicio(),
                 funcionario.getHorarioFinal()
+        );
+    }
+
+    public FuncionarioVmGeral update(FuncionarioEditDto funcionarioEditDto){
+
+        Funcionario funcionario = funcionarioRepository.findById(funcionarioEditDto.getId())
+                .orElseThrow(() -> new RuntimeException("Funcionario não encontrado."));
+
+        funcionario.setAtivo(funcionarioEditDto.isAtivo());
+        funcionario.setHorarioInicio(funcionarioEditDto.getHorarioInicio());
+        funcionario.setHorarioFinal(funcionarioEditDto.getHorarioFinal());
+
+        Funcionario newFuncionrio = funcionarioRepository.save(funcionario);
+        Usuario usuario = usuarioRepository.findById(newFuncionrio.getUsuarioId())
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        return new FuncionarioVmGeral(
+                newFuncionrio.getUsuarioId(),
+                newFuncionrio.isAtivo(),
+                newFuncionrio.getUsuarioId(),
+                usuario.getNome(),
+                newFuncionrio.getHorarioInicio(),
+                newFuncionrio.getHorarioFinal()
         );
     }
 
