@@ -90,7 +90,6 @@ public class AgendamentoService {
         agendamento.setFuncionarioId(agendamentoEditDto.getFuncionarioId());
         agendamento.setHorario(agendamentoEditDto.getHorario());
         agendamento.setDataAgendamento(agendamentoEditDto.getDataAgendamento());
-        agendamento.setStatusAgendamento(agendamentoEditDto.getStatusAgendamento());
         agendamento.setCrc(crc);
 
         Agendamento newAgendamento = agendamentoRepository.save(agendamento);

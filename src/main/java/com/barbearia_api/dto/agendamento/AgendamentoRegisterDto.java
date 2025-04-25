@@ -1,10 +1,22 @@
 package com.barbearia_api.dto.agendamento;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
 public class AgendamentoRegisterDto {
+
+    @NotNull(message = "Campo invalido.")
     private Integer funcionarioId;
+
+    @NotNull(message = "Campo invalido.")
     private Integer usuarioId;
+
+    @Pattern(regexp = "^\\d{2}:\\d{2}$", message = "Formato de horário inválido. Use HH:mm")
     private String horario;
+
+    @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$", message = "Formato de horário inválido. Use dd/mm/aaaa")
     private String dataAgendamento;
 
     public  AgendamentoRegisterDto() {}

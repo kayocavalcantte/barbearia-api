@@ -5,6 +5,7 @@ import com.barbearia_api.dto.agendamento.AgendamentoEditStatusDto;
 import com.barbearia_api.dto.agendamento.AgendamentoRegisterDto;
 import com.barbearia_api.service.AgendamentoService;
 import com.barbearia_api.viewmodel.AgendamentoVmGeral;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,17 +31,17 @@ public class AgendamentoController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AgendamentoVmGeral> register(@RequestBody AgendamentoRegisterDto agendamentoRegisterDto){
+    public ResponseEntity<AgendamentoVmGeral> register(@Valid @RequestBody AgendamentoRegisterDto agendamentoRegisterDto){
         return ResponseEntity.ok(agendamentoService.register(agendamentoRegisterDto));
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<AgendamentoVmGeral> edit(@RequestBody AgendamentoEditDto agendamentoEditDto){
+    public ResponseEntity<AgendamentoVmGeral> edit(@Valid @RequestBody AgendamentoEditDto agendamentoEditDto){
         return ResponseEntity.ok(agendamentoService.update(agendamentoEditDto));
     }
 
     @PutMapping("/edit/status")
-    public ResponseEntity<AgendamentoVmGeral> edit(@RequestBody AgendamentoEditStatusDto agendamentoEditStatusDto){
+    public ResponseEntity<AgendamentoVmGeral> edit(@Valid @RequestBody AgendamentoEditStatusDto agendamentoEditStatusDto){
         return ResponseEntity.ok(agendamentoService.updateStatusAgendamento(agendamentoEditStatusDto));
     }
 }
