@@ -30,6 +30,17 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentoService.listById(id));
     }
 
+    @GetMapping("/list/usuario/{id}")
+    public ResponseEntity<List<AgendamentoVmGeral>> listByUsuarioId(@PathVariable Integer id){
+        return ResponseEntity.ok(agendamentoService.listByUsuarioId(id));
+    }
+
+    @GetMapping("/list/funcionario/{id}")
+    public ResponseEntity<List<AgendamentoVmGeral>> listByFuncionarioId(@PathVariable Integer id){
+        return ResponseEntity.ok(agendamentoService.listByfuncionarioId(id));
+    }
+
+
     @GetMapping("/list/horario-data")
     public ResponseEntity<List<AgendamentoVmGeral>> listByHorarioAndData(
             @RequestParam String horario,

@@ -6,14 +6,30 @@ public class AgendamentoVmGeral {
     private Integer id;
     private Integer funcionarioId;
     private Integer usuarioId;
+    private String nomeUsuario;
+    private String emailUsuario;
+    private String telefoneUsuario;
     private String horario;
     private String dataAgendamento;
     private Agendamento.StatusAgendamento statusAgendamento;
     private String crc;
 
+
+
     public AgendamentoVmGeral() {}
 
-    public AgendamentoVmGeral(Integer id, Integer funcionarioId, Integer usuarioId, String horario, String dataAgendamento, Agendamento.StatusAgendamento statusAgendamento, String crc) {
+    public AgendamentoVmGeral(
+            Integer id,
+            Integer funcionarioId,
+            Integer usuarioId,
+            String horario,
+            String dataAgendamento,
+            Agendamento.StatusAgendamento statusAgendamento,
+            String crc,
+            String nomeUsuario,
+            String emailUsuario,
+            String telefoneUsuario)
+    {
         this.id = id;
         this.funcionarioId = funcionarioId;
         this.usuarioId = usuarioId;
@@ -21,6 +37,9 @@ public class AgendamentoVmGeral {
         this.dataAgendamento = dataAgendamento;
         this.statusAgendamento = statusAgendamento;
         this.crc = crc;
+        this.nomeUsuario = nomeUsuario;
+        this.emailUsuario = emailUsuario;
+        this.telefoneUsuario = telefoneUsuario;
     }
 
     public Integer getId() {
@@ -78,4 +97,8 @@ public class AgendamentoVmGeral {
     public void setCrc(String crc) {
         this.crc = crc;
     }
+
+    public String getNomeUsuario() { return nomeUsuario; }
+    public String getEmailUsuario() { return emailUsuario; }
+    public String getTelefoneUsuario() { return telefoneUsuario; }
 }

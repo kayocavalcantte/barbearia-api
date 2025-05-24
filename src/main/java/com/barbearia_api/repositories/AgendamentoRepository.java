@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface AgendamentoRepository extends JpaRepository<Agendamento, Integer> {
     List<Agendamento> findByHorarioAndDataAgendamento(String horario, String dataAgendamento);
+    List<Agendamento> findByUsuarioId(Integer usuarioId);
+    List<Agendamento> findByFuncionarioId(Integer funcionarioId);
 }

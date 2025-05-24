@@ -10,9 +10,6 @@ public class AgendamentoRegisterDto {
     @NotNull(message = "Campo invalido.")
     private Integer funcionarioId;
 
-    @NotNull(message = "Campo invalido.")
-    private Integer usuarioId;
-
     @Pattern(regexp = "^\\d{2}:\\d{2}$", message = "Formato de horário inválido. Use HH:mm")
     private String horario;
 
@@ -21,9 +18,8 @@ public class AgendamentoRegisterDto {
 
     public  AgendamentoRegisterDto() {}
 
-    public AgendamentoRegisterDto(Integer funcionarioId, Integer usuarioId, String horario, String dataAgendamento) {
+    public AgendamentoRegisterDto(Integer funcionarioId, String horario, String dataAgendamento) {
         this.funcionarioId = funcionarioId;
-        this.usuarioId = usuarioId;
         this.horario = horario;
         this.dataAgendamento = dataAgendamento;
     }
@@ -36,13 +32,6 @@ public class AgendamentoRegisterDto {
         this.funcionarioId = funcionarioId;
     }
 
-    public Integer getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Integer usuarioId) {
-        this.usuarioId = usuarioId;
-    }
 
     public String getHorario() {
         return horario;
