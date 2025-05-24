@@ -124,4 +124,19 @@ public class AgendamentoService {
                 newAgendamento.getCrc()
         );
     }
+
+    public List<AgendamentoVmGeral> listByHorarioAndData(String horario, String dataAgendamento){
+        return agendamentoRepository.findByHorarioAndDataAgendamento(horario, dataAgendamento)
+                .stream()
+                .map(a -> new AgendamentoVmGeral(
+                        a.getId(),
+                        a.getFuncionarioId(),
+                        a.getUsuarioId(),
+                        a.getHorario(),
+                        a.getDataAgendamento(),
+                        a.getStatusAgendamento(),
+                        a.getCrc()
+                ))
+                .collect(Collectors.toList());
+    }
 }

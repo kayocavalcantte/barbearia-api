@@ -2,6 +2,7 @@ package com.barbearia_api.service;
 
 import com.barbearia_api.dto.funcionario.FuncionarioEditDto;
 import com.barbearia_api.dto.funcionario.FuncionarioRegisterDto;
+import com.barbearia_api.dto.usuario.UsuarioRegisterDto;
 import com.barbearia_api.model.Funcionario;
 import com.barbearia_api.model.Usuario;
 import com.barbearia_api.repositories.FuncionarioRepository;
@@ -19,10 +20,12 @@ public class FuncionarioService {
     @Autowired
     private FuncionarioRepository funcionarioRepository;
     private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
-    public FuncionarioService(FuncionarioRepository funcionarioRepository, UsuarioRepository usuarioRepository) {
+    public FuncionarioService(FuncionarioRepository funcionarioRepository, UsuarioRepository usuarioRepository, UsuarioService usuarioService) {
         this.funcionarioRepository = funcionarioRepository;
         this.usuarioRepository = usuarioRepository;
+        this.usuarioService = usuarioService;
     }
 
     public List<FuncionarioVmGeral> listAll(){
@@ -62,6 +65,16 @@ public class FuncionarioService {
     }
 
     public FuncionarioVmGeral register(FuncionarioRegisterDto funcionarioRegisterDto){
+
+        var objUsuario = new UsuarioRegisterDto();
+        objUsuario.setId(null);
+        objUsuario.setNome(funcionarioRegisterDto.getNome());
+        objUsuario.setEmail(funcionarioRegisterDto.getEmail());
+        objUsuario.setSenha(funcionarioRegisterDto.getSenha());
+        objUsuario.setTelefone(funcionarioRegisterDto.getTelefone());
+
+        var newUsuario = usuarioService.registerUsuarioFuncionario(objUsuario);
+
         String horarioInicio = funcionarioRegisterDto.getHorarioInicio() != null
                 ? funcionarioRegisterDto.getHorarioInicio()
                 : "08:00:00";
@@ -70,17 +83,11 @@ public class FuncionarioService {
                 ? funcionarioRegisterDto.getHorarioFinal()
                 : "19:00:00";
 
-        Usuario usuario = usuarioRepository.findById(funcionarioRegisterDto.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario não encontrado."));
-
-        if (usuario.getTipoPerfil() != Usuario.TipoPerfil.FUNCIONARIO){
-            throw new RuntimeException("Usuário não é um funcionário.");
-        }
 
         Funcionario funcionario = new Funcionario(
                 null,
                 true,
-                funcionarioRegisterDto.getUsuarioId(),
+                newUsuario.getId(),
                 horarioInicio,
                 horarioFinal
         );
@@ -91,7 +98,7 @@ public class FuncionarioService {
                 funcionario.getId(),
                 funcionario.isAtivo(),
                 funcionario.getUsuarioId(),
-                usuario.getNome(),
+                newUsuario.getNome(),
                 funcionario.getHorarioInicio(),
                 funcionario.getHorarioFinal()
         );

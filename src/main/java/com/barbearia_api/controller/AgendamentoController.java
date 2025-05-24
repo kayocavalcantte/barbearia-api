@@ -30,6 +30,15 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentoService.listById(id));
     }
 
+    @GetMapping("/list/horario-data")
+    public ResponseEntity<List<AgendamentoVmGeral>> listByHorarioAndData(
+            @RequestParam String horario,
+            @RequestParam String dataAgendamento) {
+
+        return ResponseEntity.ok(agendamentoService.listByHorarioAndData(horario, dataAgendamento));
+    }
+
+
     @PostMapping("/register")
     public ResponseEntity<AgendamentoVmGeral> register(@Valid @RequestBody AgendamentoRegisterDto agendamentoRegisterDto){
         return ResponseEntity.ok(agendamentoService.register(agendamentoRegisterDto));
