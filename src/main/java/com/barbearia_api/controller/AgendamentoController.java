@@ -61,7 +61,8 @@ public class AgendamentoController {
     }
 
     @PutMapping("/edit/status")
-    public ResponseEntity<AgendamentoVmGeral> edit(@Valid @RequestBody AgendamentoEditStatusDto agendamentoEditStatusDto){
-        return ResponseEntity.ok(agendamentoService.updateStatusAgendamento(agendamentoEditStatusDto));
+    public ResponseEntity<AgendamentoVmGeral> edit(@Valid @RequestBody AgendamentoEditStatusDto dto) {
+        return ResponseEntity.ok(agendamentoService.updateStatusAgendamento(dto));
     }
+
 }
