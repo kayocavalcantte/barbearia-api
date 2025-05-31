@@ -54,8 +54,11 @@ public class AgendamentoService {
                 .orElse(null);
     }
 
-    public List<AgendamentoVmGeral> listByUsuarioId(Integer id) {
-        return agendamentoRepository.findByUsuarioId(id).stream()
+    public List<AgendamentoVmGeral> listByUsuarioId() {
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer usuarioId = usuario.getId();
+
+        return agendamentoRepository.findByUsuarioId(usuarioId).stream()
                 .map(agendamento -> {
                     AgendamentoVmGeral vm = toVm(agendamento);
 
@@ -68,9 +71,17 @@ public class AgendamentoService {
                 .collect(Collectors.toList());
     }
 
-
     public List<AgendamentoVmGeral> listByfuncionarioId(Integer id) {
         return agendamentoRepository.findByFuncionarioId(id).stream()
+                .map(this::toVm)
+                .collect(Collectors.toList());
+    }
+
+    public List<AgendamentoVmGeral> listByfuncionario() {
+        Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer usuarioId = usuario.getId();
+
+        return agendamentoRepository.findByFuncionarioId(usuarioId).stream()
                 .map(this::toVm)
                 .collect(Collectors.toList());
     }
@@ -84,7 +95,6 @@ public class AgendamentoService {
     public AgendamentoVmGeral register(AgendamentoRegisterDto agendamentoRegisterDto) {
         Usuario usuario = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Integer usuarioId = usuario.getId();
-
 
         Funcionario funcionario = funcionarioRepository.findById(agendamentoRegisterDto.getFuncionarioId())
                 .orElseThrow(() -> new RuntimeException("Funcionário não encontrado."));

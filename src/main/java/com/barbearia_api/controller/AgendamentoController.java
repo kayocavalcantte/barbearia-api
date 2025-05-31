@@ -30,14 +30,19 @@ public class AgendamentoController {
         return ResponseEntity.ok(agendamentoService.listById(id));
     }
 
-    @GetMapping("/list/usuario/{id}")
-    public ResponseEntity<List<AgendamentoVmGeral>> listByUsuarioId(@PathVariable Integer id){
-        return ResponseEntity.ok(agendamentoService.listByUsuarioId(id));
+    @GetMapping("/list-usuario")
+    public ResponseEntity<List<AgendamentoVmGeral>> listByUsuarioId(){
+        return ResponseEntity.ok(agendamentoService.listByUsuarioId());
     }
 
     @GetMapping("/list/funcionario/{id}")
     public ResponseEntity<List<AgendamentoVmGeral>> listByFuncionarioId(@PathVariable Integer id){
         return ResponseEntity.ok(agendamentoService.listByfuncionarioId(id));
+    }
+
+    @GetMapping("/list/funcionario")
+    public ResponseEntity<List<AgendamentoVmGeral>> listByFuncionario(){
+        return ResponseEntity.ok(agendamentoService.listByfuncionario());
     }
 
 

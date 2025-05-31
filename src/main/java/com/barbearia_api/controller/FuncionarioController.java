@@ -29,6 +29,11 @@ public class FuncionarioController {
         return ResponseEntity.ok(funcionarioService.listById(id));
     }
 
+    @GetMapping("/list-usuario")
+    public ResponseEntity<FuncionarioVmGeral> listByUsuario(){
+        return ResponseEntity.ok(funcionarioService.listByUsuario());
+    }
+
     @PostMapping("/register")
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<FuncionarioVmGeral> register(@RequestBody FuncionarioRegisterDto funcionarioRegisterDto){

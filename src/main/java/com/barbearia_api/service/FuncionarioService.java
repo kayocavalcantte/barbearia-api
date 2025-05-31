@@ -9,6 +9,7 @@ import com.barbearia_api.repositories.FuncionarioRepository;
 import com.barbearia_api.repositories.UsuarioRepository;
 import com.barbearia_api.viewmodel.FuncionarioVmGeral;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,6 +49,27 @@ public class FuncionarioService {
     public FuncionarioVmGeral listById(Integer id){
 
         Optional<Funcionario> funcioanrio = funcionarioRepository.findById(id);
+
+        return funcioanrio.map(f -> {
+            Usuario usuario = usuarioRepository.findById(f.getUsuarioId())
+                    .orElseThrow(() -> new RuntimeException("Usuario não encontrato."));
+            return new FuncionarioVmGeral(
+                    f.getId(),
+                    f.isAtivo(),
+                    f.getUsuarioId(),
+                    usuario.getNome(),
+                    f.getHorarioInicio(),
+                    f.getHorarioFinal()
+            );
+        }).orElse(null);
+
+    }
+
+    public FuncionarioVmGeral listByUsuario(){
+        Usuario usu = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer usuarioId = usu.getId();
+
+        Optional<Funcionario> funcioanrio = funcionarioRepository.findById(usuarioId);
 
         return funcioanrio.map(f -> {
             Usuario usuario = usuarioRepository.findById(f.getUsuarioId())
