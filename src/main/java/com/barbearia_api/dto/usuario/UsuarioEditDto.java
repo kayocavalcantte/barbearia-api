@@ -3,26 +3,34 @@ package com.barbearia_api.dto.usuario;
 import com.barbearia_api.model.Usuario;
 
 public class UsuarioEditDto {
-    private Integer id;
     private String nome;
     private String telefone;
-    private Usuario.TipoPerfil tipoPerfil;
+    private String email;
+    private String senha;
 
     public UsuarioEditDto(){}
 
-    public UsuarioEditDto(Integer id, String nome, String telefone, Usuario.TipoPerfil tipoPerfil) {
-        this.id = id;
+    public UsuarioEditDto(String nome, String telefone, String email, String senha) {
         this.nome = nome;
         this.telefone = telefone;
-        this.tipoPerfil = tipoPerfil;
+        this.email = email;
+        this.senha = senha;
     }
 
-    public Integer getId() {
-        return id;
+    public String getEmail() {
+        return email;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getNome() {
@@ -39,13 +47,5 @@ public class UsuarioEditDto {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
-    }
-
-    public Usuario.TipoPerfil getTipoPerfil() {
-        return tipoPerfil;
-    }
-
-    public void setTipoPerfil(Usuario.TipoPerfil tipoPerfil) {
-        this.tipoPerfil = tipoPerfil;
     }
 }

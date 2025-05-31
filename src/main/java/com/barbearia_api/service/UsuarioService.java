@@ -1,11 +1,13 @@
 package com.barbearia_api.service;
 
+import com.barbearia_api.dto.usuario.UsuarioEditAdminDto;
 import com.barbearia_api.dto.usuario.UsuarioEditDto;
 import com.barbearia_api.dto.usuario.UsuarioRegisterDto;
 import com.barbearia_api.model.Usuario;
 import com.barbearia_api.repositories.UsuarioRepository;
 import com.barbearia_api.viewmodel.UsuarioVmGeral;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,6 +34,14 @@ public class UsuarioService implements UserDetailsService {
 
     public UsuarioVmGeral listById(Integer id) {
         return usuarioRepository.findById(id)
+                .map(u -> new UsuarioVmGeral(u.getId(), u.getNome(), u.getEmail(), u.getTelefone(), u.getTipoPerfil()))
+                .orElse(null);
+    }
+    public UsuarioVmGeral listByUsuario() {
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer usuarioId = usuarioLogado.getId();
+
+        return usuarioRepository.findById(usuarioId)
                 .map(u -> new UsuarioVmGeral(u.getId(), u.getNome(), u.getEmail(), u.getTelefone(), u.getTipoPerfil()))
                 .orElse(null);
     }
@@ -82,7 +92,7 @@ public class UsuarioService implements UserDetailsService {
         );
     }
 
-    public UsuarioVmGeral update(UsuarioEditDto usuarioEditDto) {
+    public UsuarioVmGeral update(UsuarioEditAdminDto usuarioEditDto) {
         Usuario usuario = usuarioRepository.findById(usuarioEditDto.getId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
 
@@ -98,6 +108,30 @@ public class UsuarioService implements UserDetailsService {
                 newUsuario.getEmail(),
                 newUsuario.getTelefone(),
                 newUsuario.getTipoPerfil()
+        );
+    }
+
+    public UsuarioVmGeral updateCliente(UsuarioEditDto usuarioEditDto) {
+
+        Usuario usuarioLogado = (Usuario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Integer usuarioId = usuarioLogado.getId();
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado."));
+
+        usuario.setNome(usuarioEditDto.getNome());
+        usuario.setTelefone(usuarioEditDto.getTelefone());
+        usuario.setEmail(usuarioEditDto.getEmail());
+        usuario.setSenha(passwordEncoder.encode(usuarioEditDto.getSenha()));
+
+        Usuario newUsuario = usuarioRepository.save(usuario);
+
+        return new UsuarioVmGeral(
+                newUsuario.getId(),
+                newUsuario.getNome(),
+                newUsuario.getEmail(),
+                newUsuario.getTelefone(),
+                Usuario.TipoPerfil.CLIENTE
         );
     }
 

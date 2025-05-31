@@ -1,9 +1,12 @@
 package com.barbearia_api.dto.agendamento;
 
 
+import com.barbearia_api.model.Servico;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+
+import java.util.List;
 
 public class AgendamentoRegisterDto {
 
@@ -16,12 +19,24 @@ public class AgendamentoRegisterDto {
     @Pattern(regexp = "^\\d{2}/\\d{2}/\\d{4}$", message = "Formato de horário inválido. Use dd/mm/aaaa")
     private String dataAgendamento;
 
+    @NotNull(message = "Campo invalido")
+    private List<Integer> servicoId;
+
     public  AgendamentoRegisterDto() {}
 
-    public AgendamentoRegisterDto(Integer funcionarioId, String horario, String dataAgendamento) {
+    public AgendamentoRegisterDto(Integer funcionarioId, String horario, String dataAgendamento, List<Integer> servicoId) {
         this.funcionarioId = funcionarioId;
         this.horario = horario;
         this.dataAgendamento = dataAgendamento;
+        this.servicoId = servicoId;
+    }
+
+    public List<Integer> getServicoId() {
+        return servicoId;
+    }
+
+    public void setServicoId(List<Integer> servicoId) {
+        this.servicoId = servicoId;
     }
 
     public Integer getFuncionarioId() {

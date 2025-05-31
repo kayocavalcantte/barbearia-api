@@ -20,18 +20,17 @@ public class FuncionarioController {
     }
 
     @GetMapping("/listar")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<FuncionarioVmGeral>> listAll(){
         return ResponseEntity.ok(funcionarioService.listAll());
     }
 
     @GetMapping("/list/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<FuncionarioVmGeral> listById(@PathVariable Integer id){
         return ResponseEntity.ok(funcionarioService.listById(id));
     }
 
     @PostMapping("/register")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<FuncionarioVmGeral> register(@RequestBody FuncionarioRegisterDto funcionarioRegisterDto){
         return ResponseEntity.ok(funcionarioService.register(funcionarioRegisterDto));
     }

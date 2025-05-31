@@ -26,7 +26,6 @@ public class AgendamentoService {
     private final AgendamentoServicoService agendamentoServicoService;
 
 
-
     @Autowired
     private UsuarioRepository usuarioRepository;
 
@@ -126,6 +125,8 @@ public class AgendamentoService {
         );
 
         agendamento = agendamentoRepository.save(agendamento);
+
+        agendamentoServicoService.salvarServicos(agendamento.getId(), agendamentoRegisterDto.getServicoId());
 
         // 📤 Retorna o ViewModel do agendamento salvo
         return toVm(agendamento);
